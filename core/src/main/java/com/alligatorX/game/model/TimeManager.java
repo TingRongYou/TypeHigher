@@ -7,14 +7,16 @@ public class TimeManager {
     private float minTimeFloor; // How low the time limit should be (avoid being impossible)
     private float timePerChar; // Dynamic difficulty, time to type per character
 
+    // Constructor
     public TimeManager() {
-        this.remainingTime = 0f;
-        this.decrementAmount = 0.1f;
-        this.minTimeFloor = 0.5f;
-        this.timePerChar = 1.5f;
+        this.remainingTime = 0f; // Will get filed when first word is loaded
+        this.decrementAmount = 0.1f; // The decrement amount is set to decrease 0.1s
+        this.minTimeFloor = 0.5f; // Lowest possible time for a single character is set to 0.5s
+        this.timePerChar = 1.5f; // Original Time per character is set to 1.5s
 
     }
 
+    // Getters method
     public float getRemainingTime() {
         return this.remainingTime;
     }
@@ -36,15 +38,18 @@ public class TimeManager {
         this.remainingTime -= deltaTime;
     }
 
+    // Check if it is timeout for the word
     public boolean isTimeUp() {
         return this.remainingTime <= 0;
     }
 
+    // Call to shrink the time limit
     public void shrinkTimeLimit() {
         // Ensure even if that the result of timePerChar - decrementAmount is 0.45f, it converts to max, which is minTimeFloor
         this.timePerChar = Math.max(this.minTimeFloor, this.timePerChar - this.decrementAmount);
     }
 
+    // Reset the timer for each new word
     public void resetTimerForNewWord(int wordLength) {
         this.remainingTime = wordLength * this.timePerChar;
     }
