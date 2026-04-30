@@ -1,5 +1,7 @@
 package com.alligatorX.game;
 
+// Import other classes
+import com.alligatorX.game.view.GameScreen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -12,6 +14,7 @@ public class TypeHigher extends Game {
     // Load assets
     public void create() {
         batch = new SpriteBatch();
+        this.setScreen(new GameScreen(this,5));
     }
 
     @Override

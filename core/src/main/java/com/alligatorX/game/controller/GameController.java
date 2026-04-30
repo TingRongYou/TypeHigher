@@ -34,6 +34,39 @@ public class GameController {
 
     }
 
+    // Getters method
+    public String getCurrentWord() {
+        return this.wordProcessor.getTargetWord();
+    }
+
+    public String getTypedPortion() {
+        return this.wordProcessor.getTargetWord().substring(0, wordProcessor.getCurrentIndex());
+    }
+
+    public float getTimeLeft() {
+        return this.timeManager.getRemainingTime();
+    }
+
+    public int getScore() {
+        return this.gameSession.getWordCompleted();
+    }
+
+    public float getPlayerY() {
+        return this.player.getCurrentPosition();
+    }
+
+    public float getPlayerX() {
+        return 30;
+    }
+
+    public boolean getIsGameOver() {
+        return isGameOver;
+    }
+
+    public boolean getIsGameWon() {
+        return gameSession.isPlayerWon();
+    }
+
     // Update the time every frame
     public void update(float deltaTime) {
 

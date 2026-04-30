@@ -37,16 +37,17 @@ You can launch the game directly through the terminal using the Gradle wrapper.
 
 Open the terminal at the root of the project (or use the built-in Terminal tab at the bottom of IntelliJ) and execute the following command:
 
-**For Windows (Command Prompt / PowerShell)**
+**For Windows, Mac and Linux:**
 ```bash
-.\gradlew lwjgl3:run
+./run
 ```
-_(Note: If you are using standard Command Prompt and the above fails, you can drop the .\ and just use gradlew lwjgl3:run)_
+_(Note: If you are on Windows Command Prompt, you can also type `run` without the `./`)_
 
-**For Macs / Linux:**
-```bash
-./gradlew lwjgl3:run
-```
+**Manual Launch / Fallback:**
+
+If the shortcut scripts do not work on your machine, you can always run the game using the standard Gradle wrapper:
+* **Windows:** `gradlew lwjgl3:run`
+* **Linux/Mac:** `./gradlew lwjgl3:run`
 
 ### Architecture Note
 This project strictly enforces the MVC (Model-View-Controller) pattern.
