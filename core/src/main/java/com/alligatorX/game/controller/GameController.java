@@ -6,13 +6,16 @@ import com.alligatorX.game.model.GameSession;
 import com.alligatorX.game.model.TimeManager;
 import com.alligatorX.game.model.WordProcessor;
 
-import java.util.Arrays;
+import com.badlogic.gdx.Gdx;
+import java.io.BufferedReader;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+
 
 public class GameController {
 
     private List<String> words; // A list of words for testing
-    private boolean isGameOver; // Check if game is over
 
     // Models attributes
     private Player player;
@@ -20,9 +23,38 @@ public class GameController {
     private WordProcessor wordProcessor;
     private TimeManager timeManager;
 
+    // Game state enumerators
+    public enum GameState {
+        PLAYING,
+        PAUSE,
+        GAME_OVER
+    }
+
+    private GameState currentState;
+
     public GameController(int targetLength) {
-        this.words = Arrays.asList("first", "hello", "world", "john", "johnny"); // Dummy list for testing
-        this.isGameOver = false; // Game over is false at default
+
+        // Read words from text file
+        this.words = new ArrayList<>();
+        // Open a "Stream" to read the file one line at a time
+        try(BufferedReader bufferedReader = new BufferedReader(Gdx.files.internal("words.txt").reader())) {
+            String line;
+            // Keep reading until there are no lines left
+            while ((line = bufferedReader.readLine()) != null) {
+                String cleanWords = line.trim().toLowerCase(); // Remove blank spaces and force into lower case
+                if (!cleanWords.isEmpty() && cleanWords.matches("[a-z]+")) { // If not empty
+                    this.words.add(cleanWords);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("CRITICAL ERROR: Could not load words.txt!");
+            e.printStackTrace(); // Prints the exact error to console
+        }
+
+        // 4. Shuffle list so that the game is random every time
+        Collections.shuffle(this.words);
+
+        this.currentState = GameState.PLAYING; // Game state is playing as default
 
         // Initialize the models
         this.player = new Player();
@@ -59,8 +91,8 @@ public class GameController {
         return 30;
     }
 
-    public boolean getIsGameOver() {
-        return isGameOver;
+    public GameState getGameState() {
+        return this.currentState;
     }
 
     public boolean getIsGameWon() {
@@ -71,24 +103,29 @@ public class GameController {
     public void update(float deltaTime) {
 
         // If game is over, return
-        if (isGameOver) {
+        if (this.currentState == GameState.GAME_OVER) {
             return;
         }
 
-        timeManager.updateTimer(deltaTime); // Pass delta time to update timer
+        // Should not update anything unless is in playing state
+        if (this.currentState == GameState.PLAYING) {
+            timeManager.updateTimer(deltaTime); // Pass delta time to update timer
 
-        // If time out for a word
-        if (timeManager.isTimeUp()) {
-            player.revertToCheckpoint(); // Back to checkpoint
-            wordProcessor.resetIndex(); // Reset index
-            timeManager.resetTimerForNewWord(wordProcessor.getTargetWord().length()); // Reset timer
+            // If time out for a word
+            if (timeManager.isTimeUp()) {
+                player.revertToCheckpoint(); // Back to checkpoint
+                wordProcessor.resetIndex(); // Reset index
+                timeManager.resetTimerForNewWord(wordProcessor.getTargetWord().length()); // Reset timer
+            }
         }
+
     }
 
     // Handle keystroke input from player
     public void handleKeystroke(char input) {
 
-        if (isGameOver) {
+        // Only handle keystroke if user is in playing state
+        if (this.currentState != GameState.PLAYING) {
             return;
         }
 
@@ -100,7 +137,7 @@ public class GameController {
             player.addTypoCount(); // Increment the typo count
             // If typo equal than 5
             if (player.getTotalTypos() == 5) {
-                isGameOver = true; // Game over
+                this.currentState = GameState.GAME_OVER; // Game over
             } else { // If not
                 player.revertToCheckpoint(); // Back to checkpoint
                 wordProcessor.resetIndex(); // Reset index
@@ -114,11 +151,29 @@ public class GameController {
             gameSession.addWordCompleted(); // Increment word completed
             // If player has won
             if (gameSession.isPlayerWon()) {
-                isGameOver = true; // Game over
+                this.currentState = GameState.GAME_OVER; // Game over
             } else {
-                wordProcessor.loadNextWord(this.words.get(gameSession.getWordCompleted())); // Load the next word in the list
+                // Safely calculate index using Modulo so it loops around if we run out of words
+                int safeIndex = gameSession.getWordCompleted() % this.words.size();
+
+                wordProcessor.loadNextWord(this.words.get(safeIndex)); // Load the next word in the list
                 timeManager.resetTimerForNewWord(wordProcessor.getTargetWord().length()); // Reset timer
             }
+        }
+
+    }
+
+    // Toggle Pause Screen
+    public void togglePause() {
+        if (this.currentState == GameState.GAME_OVER) {
+            return; // Cannot toggle pause if it is already game over
+        }
+
+        if (this.currentState == GameState.PLAYING) {
+            this.currentState = GameState.PAUSE; // If the current state is playing, make it pause
+        }
+        else {
+            this.currentState = GameState.PLAYING; // If the current state is pause, make it playing
         }
 
     }
