@@ -54,3 +54,12 @@ This project strictly enforces the MVC (Model-View-Controller) pattern.
 * Game rules, timers and string manipulation live purely in the `model` package.
 * LibGDX rendering the UI live in the `view` package.
 * The `controller` acts as the sole communication bridge between the two.
+
+## Credits & Acknowledgements
+**Dictionary Data**
+
+The core dictionary used to generate the typing targets in TypeHigher is sourced from the [dwyl/english-words](https://github.com/dwyl/english-words) repository.
+
+For the purposes of this game's mechanics, the massive dataset was programmatically sanitized at runtime to exclusively use lowercase, purely alphabetic words to ensure smooth gameplay flow.
+
+The original `dwyl` word list is free and unencumbered software released into the public domain via **The Unlicense**.
