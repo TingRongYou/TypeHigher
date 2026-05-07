@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
 public class GameScreen implements Screen {
 
@@ -28,6 +29,7 @@ public class GameScreen implements Screen {
 
     // Drawings
     private BitmapFont font;
+    private GlyphLayout layout; // Combine typed words and display word into one
     private Texture pixelTexture;
     private Pixmap pixmap;
 
@@ -51,6 +53,8 @@ public class GameScreen implements Screen {
         this.viewport = new FitViewport(800, 600, camera); // 800x600 as our virtual world size
 
         this.font = new BitmapFont(); // Font
+        this.font.getData().setScale(2f); // Make text larger
+        this.layout = new GlyphLayout();
         this.pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888); // Dummy shapes to replace player for demo
         pixmap.setColor(Color.WHITE); // Set color to white
         pixmap.fill(); // Fill (Originally transparent)
@@ -122,8 +126,26 @@ public class GameScreen implements Screen {
 
             // Font
             game.batch.setColor(Color.WHITE); // Set text to white color
-            font.draw(game.batch, "Target Word: " + gameController.getCurrentWord(), 100, 100);
-            font.draw(game.batch, gameController.getTypedPortion(), 100, 80);
+            // 1. Get String
+            String fullWord = gameController.getCurrentWord();
+            String typed = gameController.getTypedPortion();
+            // Cuts the string (If full word is "apple", typed "app", gives "le")
+            String remainingWord = fullWord.substring(typed.length());
+            // 2.Find center of the String
+            float textY = viewport.getWorldHeight() / 2 + 100;
+            // Measure full word to perfectly center it
+            layout.setText(font, fullWord);
+            float startX = (viewport.getWorldWidth() - layout.width) / 2;
+            // 3. Draw typed portion as green
+            font.setColor(Color.GREEN);
+            font.draw(game.batch, typed, startX, textY);
+            // 4. Measure typed portion
+            layout.setText(font, typed); // Measure just the green text
+            float offset = layout.width;// See how wide it is
+            // 5. Draw remaining portion in gray
+            font.setColor(Color.GRAY);
+            // Draw gray text to starts where the green text ended
+            font.draw(game.batch, remainingWord, startX + offset, textY);
             font.draw(game.batch, "Remaining Time: " + gameController.getTimeLeft(), 0, viewport.getWorldHeight() - 20);
             font.draw(game.batch, "Score: " + gameController.getScore(), 0, viewport.getWorldHeight() - 20, viewport.getWorldWidth(), Align.center, false);
 

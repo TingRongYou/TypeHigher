@@ -149,6 +149,13 @@ public class GameController {
             player.climbUp();
             player.saveCheckpoint(); // Save checkpoint
             gameSession.addWordCompleted(); // Increment word completed
+
+            // Dynamic difficulty
+            if (gameSession.getWordCompleted() % 5 == 0) {
+                timeManager.shrinkTimeLimit(); // Reduce time per character
+                System.out.println("SPED UP! Time per char is now: " + timeManager.getTimePerChar());
+            }
+
             // If player has won
             if (gameSession.isPlayerWon()) {
                 this.currentState = GameState.GAME_OVER; // Game over
