@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.math.MathUtils;
 
 public class GameScreen implements Screen {
 
@@ -45,6 +46,9 @@ public class GameScreen implements Screen {
 
     // Track pause typing
     private String pauseTyped = "";
+
+    private float popScale = 2.0f; // Control physical size of text
+    private String previousTyped = ""; // Detect if a new letter is entered
 
     // Execute once as it runs, initialize the screen
     @Override
@@ -126,27 +130,51 @@ public class GameScreen implements Screen {
 
             // Font
             game.batch.setColor(Color.WHITE); // Set text to white color
+
             // 1. Get String
             String fullWord = gameController.getCurrentWord();
             String typed = gameController.getTypedPortion();
             // Cuts the string (If full word is "apple", typed "app", gives "le")
             String remainingWord = fullWord.substring(typed.length());
-            // 2.Find center of the String
-            float textY = viewport.getWorldHeight() / 2 + 100;
+
+            // 2. Detect keystroke for 'Pop'
+            // If typed word got longer, trigger pop effect
+            if (typed.length() > previousTyped.length()) {
+                popScale = 2.4f; // Jump to 2.6x size
+            } else if (typed.length() == 0 && previousTyped.length() > 0) {
+                popScale = 2.4f; // If player made a mistake or finished a word, pop again
+            }
+            previousTyped = typed; // Update previousTyped for next frame
+
+            // 3. LERP the Scale
+            // Shrinks back to normal scale smoothly
+            popScale = MathUtils.lerp(popScale, 2.0f, delta * 15f); // Back to normal 1.0f scale, 'delta * 15f' means speed, higher value faster speed
+            font.getData().setScale(popScale); // Apply scale to the font
+
+            // 4.Find center of the String
+            float textY = viewport.getWorldHeight() / 2;
             // Measure full word to perfectly center it
             layout.setText(font, fullWord);
             float startX = (viewport.getWorldWidth() - layout.width) / 2;
-            // 3. Draw typed portion as green
+
+            // 5. Draw typed portion as green
             font.setColor(Color.GREEN);
             font.draw(game.batch, typed, startX, textY);
-            // 4. Measure typed portion
+
+            // 6. Measure typed portion
             layout.setText(font, typed); // Measure just the green text
             float offset = layout.width;// See how wide it is
-            // 5. Draw remaining portion in gray
+
+            // 7. Draw remaining portion in gray
             font.setColor(Color.GRAY);
             // Draw gray text to starts where the green text ended
             font.draw(game.batch, remainingWord, startX + offset, textY);
-            font.draw(game.batch, "Remaining Time: " + gameController.getTimeLeft(), 0, viewport.getWorldHeight() - 20);
+
+            // Draw HUD
+            // Reset font back to normal scale, so it won't affect others
+            font.getData().setScale(2.0f);
+            font.setColor(Color.WHITE);
+            font.draw(game.batch, "Remaining Time: " + (int) gameController.getTimeLeft(), 0, viewport.getWorldHeight() - 20);
             font.draw(game.batch, "Score: " + gameController.getScore(), 0, viewport.getWorldHeight() - 20, viewport.getWorldWidth(), Align.center, false);
 
             game.batch.end();
