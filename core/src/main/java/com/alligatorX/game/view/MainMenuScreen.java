@@ -32,6 +32,10 @@ public class MainMenuScreen implements Screen {
     private float popScale = 1.0f; // Control physical size of text
     private String previousTyped = ""; // Detect if a new letter is entered
 
+    private float transitionTimer = -1f; // NOT transitioning
+    private int selectedLength = 0;
+    private boolean isQuitting = false;
+
     public MainMenuScreen(TypeHigher game) {
         this.game = game;
     }
@@ -63,24 +67,30 @@ public class MainMenuScreen implements Screen {
             @Override
             public boolean keyTyped(char character) {
 
+                // If a transition is already happening, ignore all typing!
+                if (transitionTimer >= 0) {
+                    return true;
+                }
+
                 // Add typed character into currentTyped
                 currentTyped += character;
 
                 // Check if it is a valid input
                 if (currentTyped.equals("thirty")) {
-                    game.setScreen(new GameScreen(game, 30));
-                    dispose(); // Dispose the menu to free up memory
+                    selectedLength = 30;
+                    transitionTimer = 0.1f;
                 } else if (currentTyped.equals("sixty")) {
-                    game.setScreen(new GameScreen(game, 60));
-                    dispose();
+                    selectedLength = 60;
+                    transitionTimer = 0.1f;
                 } else if (currentTyped.equals("ninety")) {
-                    game.setScreen(new GameScreen(game, 90));
-                    dispose();
+                    selectedLength = 90;
+                    transitionTimer = 0.1f;
                 } else if (currentTyped.equals("unlimited")) {
-                    game.setScreen(new GameScreen(game, -1));
-                    dispose();
+                    selectedLength = -1;
+                    transitionTimer = 0.1f;
                 } else if (currentTyped.equals("quit")) {
-                    Gdx.app.exit(); // Closes the game instantly
+                    isQuitting = true; // Closes the game instantly
+                    transitionTimer = 0.1f;
                 }
 
                 // If user messed up and typed something doesn't start with t, s, n, or u, clear it
@@ -115,6 +125,24 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
+
+        // Handle transition countdown
+        if (transitionTimer >= 0) {
+            transitionTimer -= delta;
+
+            // When the timer hits zero, execute the screen swap!
+            if (transitionTimer <= 0) {
+                if (isQuitting) {
+                    Gdx.app.exit();
+                } else {
+                    game.setScreen(new GameScreen(game, selectedLength));
+                    dispose();
+                }
+                return;
+            }
+
+        }
+
         ScreenUtils.clear(0, 0, 0.2f, 1); // Dark blue background for the menu
 
         // LERP MATH
