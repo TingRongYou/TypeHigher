@@ -207,12 +207,15 @@ public class GameScreen implements Screen {
             game.batch.setColor(Color.WHITE); // Set text to white color
             font.draw(game.batch, "Target Word: " + gameController.getCurrentWord(), 100, 100);
             font.draw(game.batch, gameController.getTypedPortion(), 100, 80);
-            font.draw(game.batch, "Remaining Time: " + gameController.getTimeLeft(), 0, viewport.getWorldHeight() - 20);
+
+            font.getData().setScale(0.5f);
+            font.draw(game.batch, "Remaining Time: " + (int) gameController.getTimeLeft(), 0, viewport.getWorldHeight() - 20);
             font.draw(game.batch, "Score: " + gameController.getScore(), 0, viewport.getWorldHeight() - 20, viewport.getWorldWidth(), Align.center, false);
 
             // Draw PAUSED text in the middle
+            font.getData().setScale(1.0f);
             font.draw(game.batch, "PAUSED - Press ESC to Resume", 0, viewport.getWorldHeight() / 2, viewport.getWorldWidth(), Align.center, false);
-            font.draw(game.batch, "Type 'quit' to exit", 0, viewport.getWorldHeight() / 2, viewport.getWorldWidth(), Align.center, false);
+            font.draw(game.batch, "Type 'quit' to exit", 0, viewport.getWorldHeight() / 2 - 50, viewport.getWorldWidth(), Align.center, false);
             game.batch.end();
 
         }
