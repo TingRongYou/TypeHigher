@@ -187,7 +187,7 @@ public class GameScreen implements Screen {
             font.draw(game.batch, remainingWord, startX + offset, textY);
 
             // Draw HUD
-            // Reset font back to normal scale, so it won't affect others
+            // Set HUD to smaller scale
             font.getData().setScale(0.5f);
             font.setColor(Color.WHITE);
             font.draw(game.batch, "Remaining Time: " + (int) gameController.getTimeLeft(), 0, viewport.getWorldHeight() - 20);
