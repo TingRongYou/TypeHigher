@@ -34,6 +34,10 @@ public class GameOverScreen implements Screen {
     private float popScale = 1.0f; // Control physical size of text
     private String previousTyped = ""; // Detect if a new letter is entered
 
+    private float transitionTimer = -1f; // NOT transitioning
+    private boolean isQuitting = false;
+    private boolean isGoingToMenu = false;
+
     public GameOverScreen(TypeHigher game, boolean isPlayerWon, int finalScore, int targetLength) {
         this.game = game;
         this.isPlayerWon = isPlayerWon;
@@ -66,16 +70,22 @@ public class GameOverScreen implements Screen {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean keyTyped(char character) {
+
+                // If a transition is already happening, ignore all typing!
+                if (transitionTimer >= 0) {
+                    return true;
+                }
+
                 currentTyped += character; // Add character typed into currentTyped
                 // Check user input
                 if (currentTyped.equals("restart")) { // if user chooses restart
-                    game.setScreen(new GameScreen(game, targetLength)); // Restart game
-                    dispose();
+                    transitionTimer = 0.1f;
                 } else if (currentTyped.equals("menu")) { // If user chooses menu
-                    game.setScreen(new MainMenuScreen(game)); // Back to main menu
-                    dispose();
+                    isGoingToMenu = true;
+                    transitionTimer = 0.1f;
                 } else if (currentTyped.equals("quit")) {
-                    Gdx.app.exit();
+                    isQuitting = true;
+                    transitionTimer = 0.1f;
                 }
 
                 if(!"restart".startsWith(currentTyped) && !"menu".startsWith(currentTyped) &&
@@ -108,6 +118,26 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void render(float delta) {
+
+        // Handle transition countdown
+        if (transitionTimer >= 0) {
+            transitionTimer -= delta;
+
+            // When the timer hits zero, execute the screen swap!
+            if (transitionTimer <= 0) {
+                if (isQuitting) {
+                    Gdx.app.exit();
+                } else if (isGoingToMenu) {
+                    game.setScreen(new MainMenuScreen(game));
+                } else {
+                    game.setScreen(new GameScreen(game, targetLength));
+                    dispose();
+                }
+                return;
+            }
+
+        }
+
         // Dark red background if lost, dark green background if won
         if (isPlayerWon) {
             ScreenUtils.clear(0, 0.2f, 0, 1);
