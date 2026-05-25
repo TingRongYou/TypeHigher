@@ -16,6 +16,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
 public class GameScreen implements Screen {
 
@@ -47,7 +49,7 @@ public class GameScreen implements Screen {
     // Track pause typing
     private String pauseTyped = "";
 
-    private float popScale = 2.0f; // Control physical size of text
+    private float popScale = 1.0f; // Control physical size of text
     private String previousTyped = ""; // Detect if a new letter is entered
 
     // Execute once as it runs, initialize the screen
@@ -56,8 +58,22 @@ public class GameScreen implements Screen {
         this.camera = new OrthographicCamera();
         this.viewport = new FitViewport(800, 600, camera); // 800x600 as our virtual world size
 
-        this.font = new BitmapFont(); // Font
-        this.font.getData().setScale(2f); // Make text larger
+        // FreeType font
+        // 1. Load .ttf file from assets folder
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("gamefont.ttf"));
+        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+
+        // 2. Set the BASE resolution size to 48 pixels to avoid blurring
+        parameter.size = 48;
+        parameter.color = Color.WHITE;
+
+        // 3. Generate the font
+        this.font =  generator.generateFont(parameter);
+
+        // 4. Dispose generator to avoid memory leaks
+        generator.dispose();
+
+        this.font.getData().setScale(1.0f); // Make text larger
         this.layout = new GlyphLayout();
         this.pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888); // Dummy shapes to replace player for demo
         pixmap.setColor(Color.WHITE); // Set color to white
@@ -140,15 +156,15 @@ public class GameScreen implements Screen {
             // 2. Detect keystroke for 'Pop'
             // If typed word got longer, trigger pop effect
             if (typed.length() > previousTyped.length()) {
-                popScale = 2.4f; // Jump to 2.6x size
+                popScale = 1.3f; // Jump to 1.3x size
             } else if (typed.length() == 0 && previousTyped.length() > 0) {
-                popScale = 2.4f; // If player made a mistake or finished a word, pop again
+                popScale = 1.3f; // If player made a mistake or finished a word, pop again
             }
             previousTyped = typed; // Update previousTyped for next frame
 
             // 3. LERP the Scale
             // Shrinks back to normal scale smoothly
-            popScale = MathUtils.lerp(popScale, 2.0f, delta * 15f); // Back to normal 1.0f scale, 'delta * 15f' means speed, higher value faster speed
+            popScale = MathUtils.lerp(popScale, 1.0f, delta * 15f); // Back to normal 1.0f scale, 'delta * 15f' means speed, higher value faster speed
             font.getData().setScale(popScale); // Apply scale to the font
 
             // 4.Find center of the String
@@ -172,7 +188,7 @@ public class GameScreen implements Screen {
 
             // Draw HUD
             // Reset font back to normal scale, so it won't affect others
-            font.getData().setScale(2.0f);
+            font.getData().setScale(0.5f);
             font.setColor(Color.WHITE);
             font.draw(game.batch, "Remaining Time: " + (int) gameController.getTimeLeft(), 0, viewport.getWorldHeight() - 20);
             font.draw(game.batch, "Score: " + gameController.getScore(), 0, viewport.getWorldHeight() - 20, viewport.getWorldWidth(), Align.center, false);
