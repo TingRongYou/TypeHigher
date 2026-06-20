@@ -32,6 +32,7 @@ public class GameController {
 
     private GameState currentState;
     private float speedUpMessageTimer = 0f; // Tracks how long to show the message
+    private float typoMessageTimer = 0f; // Tracks how long to show the message
 
     public GameController(int targetLength) {
 
@@ -108,6 +109,10 @@ public class GameController {
         return speedUpMessageTimer > 0;
     }
 
+    public boolean isShowingTypoMessage() {
+        return typoMessageTimer > 0;
+    }
+
     // Update the time every frame
     public void update(float deltaTime) {
 
@@ -132,6 +137,10 @@ public class GameController {
             speedUpMessageTimer -= deltaTime;
         }
 
+        if (typoMessageTimer > 0) {
+            typoMessageTimer -= deltaTime;
+        }
+
     }
 
     // Handle keystroke input from player
@@ -148,6 +157,7 @@ public class GameController {
         // If it is a typo
         if (keystrokeStatus == WordProcessor.KeystrokeStatus.TYPO) {
             player.addTypoCount(); // Increment the typo count
+            typoMessageTimer = 2.0f;
             // If typo equal than 5
             if (player.getTotalTypos() == 5) {
                 this.currentState = GameState.GAME_OVER; // Game over

@@ -182,14 +182,27 @@ public class GameScreen implements Screen {
             layout.setText(font, typed); // Measure just the green text
             float offset = layout.width;// See how wide it is
 
+            // Display speed up message
             if (gameController.isShowingSpeedUpMessage()) {
                 font.getData().setScale(0.8f);
                 font.setColor(Color.YELLOW);
 
+                // Draw slightly above main typing area
                 float messageY = viewport.getWorldHeight() / 2 + 100;
                 font.draw(game.batch, "SPED UP!", 0, messageY, viewport.getWorldWidth(), Align.center, false);
+
+                // Reset scale back to normal
                 font.getData().setScale(1.0f);
 
+            }
+
+            // Display Typo Message
+            if (gameController.isShowingTypoMessage()) {
+                font.getData().setScale(0.8f);
+                font.setColor(Color.RED);
+                float messageY = viewport.getWorldHeight() / 2 + 200;
+                font.draw(game.batch, "TYPO + 1!", 0, messageY, viewport.getWorldWidth(), Align.center, false);
+                font.getData().setScale(1.0f);
             }
 
             // 7. Draw remaining portion in gray
@@ -234,6 +247,28 @@ public class GameScreen implements Screen {
             font.getData().setScale(1.0f);
             font.draw(game.batch, "PAUSED - Press ESC to Resume", 0, viewport.getWorldHeight() / 2, viewport.getWorldWidth(), Align.center, false);
             font.draw(game.batch, "Type 'quit' to exit", 0, viewport.getWorldHeight() / 2 - 50, viewport.getWorldWidth(), Align.center, false);
+
+            if (gameController.isShowingSpeedUpMessage()) {
+                font.getData().setScale(0.8f);
+                font.setColor(Color.YELLOW);
+
+                // Draw slightly above main typing area
+                float messageY = viewport.getWorldHeight() / 2 + 100;
+                font.draw(game.batch, "SPED UP!", 0, messageY, viewport.getWorldWidth(), Align.center, false);
+
+                // Reset scale back to normal
+                font.getData().setScale(1.0f);
+
+            }
+
+            if (gameController.isShowingTypoMessage()) {
+                font.getData().setScale(0.8f);
+                font.setColor(Color.RED);
+                float messageY = viewport.getWorldHeight() / 2 + 200;
+                font.draw(game.batch, "TYPO + 1!", 0, messageY, viewport.getWorldWidth(), Align.center, false);
+                font.getData().setScale(1.0f);
+            }
+
             game.batch.end();
 
         }
