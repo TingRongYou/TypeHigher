@@ -10,8 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.sun.org.apache.xpath.internal.operations.Or;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
@@ -23,7 +22,7 @@ public class MainMenuScreen implements Screen {
 
     // Camera and font
     private OrthographicCamera camera;
-    private FitViewport viewport;
+    private ExtendViewport viewport;
     private BitmapFont font;
 
     // A simple String to hold what the user is typing
@@ -43,7 +42,7 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
         this.camera = new OrthographicCamera();
-        this.viewport = new FitViewport(800, 600, camera);
+        this.viewport = new ExtendViewport(800, 600, camera);
 
         // FreeType font
         // 1. Load .ttf file from assets folder
@@ -148,41 +147,40 @@ public class MainMenuScreen implements Screen {
         // LERP MATH
         // Detect keystroke for 'Pop'
         if (currentTyped.length() > previousTyped.length()) {
-            popScale = 1.3f; // 1.3x size
+            popScale = 1.1f; // 1.3x size
         } else if (currentTyped.length() == 0 && previousTyped.length() > 0) {
-            popScale = 1.3f; // Pop if they made mistake and word is cleared
+            popScale = 1.1f; // Pop if they made mistake and word is cleared
         }
         previousTyped = currentTyped;
 
         // Shrinks smoothly back to normal
-        popScale = MathUtils.lerp(popScale, 1.0f, delta * 15f);
+        popScale = MathUtils.lerp(popScale, 0.8f, delta * 15f);
 
         // Tell batch to look through camera lens before start painting
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
 
         // Draw Title
+        font.getData().setScale(1.3f);
         font.setColor(Color.GOLD);
         font.draw(game.batch, "TYPE HIGHER", 0, viewport.getWorldHeight() - 100, viewport.getWorldWidth(), Align.center, false);
 
         // Draw Instructions
         float startY = viewport.getWorldHeight() / 2 + 100; // Starts slightly above middle screen
+        font.getData().setScale(0.8f);
         font.setColor(Color.WHITE);
         font.draw(game.batch, "> thirty", 0, startY, viewport.getWorldWidth(), Align.center, false);
         font.draw(game.batch, "> sixty", 0, startY - 50, viewport.getWorldWidth(), Align.center, false);
         font.draw(game.batch, "> ninety", 0, startY - 100, viewport.getWorldWidth(), Align.center, false);
         font.draw(game.batch, "> unlimited", 0, startY - 150, viewport.getWorldWidth(), Align.center, false);
         font.draw(game.batch, "> quit", 0, startY - 200, viewport.getWorldWidth(), Align.center, false);
-
+        font.draw(game.batch, "> Press F11 to toggle Fullscreen", 20, 40);
         // Draw popping text
         font.getData().setScale(popScale); // Apply pop scale
 
         // Draw what the user typed
         font.setColor(Color.GREEN);
         font.draw(game.batch, "Typing: " + currentTyped, 0, startY - 280, viewport.getWorldWidth(), Align.center, false);
-
-        // Reset Scale
-        font.getData().setScale(1.0f);
 
         game.batch.end();
 

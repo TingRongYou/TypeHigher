@@ -3,6 +3,7 @@ package com.alligatorX.game.view;
 // Import other classes
 import com.alligatorX.game.TypeHigher;
 import com.alligatorX.game.controller.GameController;
+import com.alligatorX.game.model.Player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
@@ -12,7 +13,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.MathUtils;
@@ -44,7 +45,7 @@ public class GameScreen implements Screen {
 
     // Cameras and resizing
     private OrthographicCamera camera; // 2D Camera that decides what part of the game world to look at
-    private FitViewport viewport; // Scales the game up and down but maintaining aspect ratio by adding black bars if necessary
+    private ExtendViewport viewport; // Scales the game up and down but maintaining aspect ratio by adding black bars if necessary
 
     // Track pause typing
     private String pauseTyped = "";
@@ -56,7 +57,7 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         this.camera = new OrthographicCamera();
-        this.viewport = new FitViewport(800, 600, camera); // 800x600 as our virtual world size
+        this.viewport = new ExtendViewport(800, 600, camera); // 800x600 as our virtual world size
 
         // FreeType font
         // 1. Load .ttf file from assets folder
@@ -190,8 +191,11 @@ public class GameScreen implements Screen {
             // Set HUD to smaller scale
             font.getData().setScale(0.5f);
             font.setColor(Color.WHITE);
-            font.draw(game.batch, "Remaining Time: " + (int) gameController.getTimeLeft(), 0, viewport.getWorldHeight() - 20);
-            font.draw(game.batch, "Score: " + gameController.getScore(), 0, viewport.getWorldHeight() - 20, viewport.getWorldWidth(), Align.center, false);
+            font.draw(game.batch, "Remaining Time: " + (int) gameController.getTimeLeft(), 0, viewport.getWorldHeight() - 20, viewport.getWorldWidth(), Align.center, false);
+            font.draw(game.batch, "Score: " + gameController.getScore() + "/" + targetLength, 10, viewport.getWorldHeight() - 20);
+
+            font.setColor(Color.RED);
+            font.draw(game.batch, "Typo: " + gameController.getTotalTypos() + "/5", 10, viewport.getWorldHeight() - 40);
 
             game.batch.end();
             // 2. If paused (in game)
@@ -204,15 +208,19 @@ public class GameScreen implements Screen {
             game.batch.draw(pixelTexture, gameController.getPlayerX(), gameController.getPlayerY(), 50, 100); // Draw player
 
             // Font
-            game.batch.setColor(Color.WHITE); // Set text to white color
+            font.setColor(Color.WHITE); // Set text to white color
             font.draw(game.batch, "Target Word: " + gameController.getCurrentWord(), 100, 100);
             font.draw(game.batch, gameController.getTypedPortion(), 100, 80);
 
             font.getData().setScale(0.5f);
-            font.draw(game.batch, "Remaining Time: " + (int) gameController.getTimeLeft(), 0, viewport.getWorldHeight() - 20);
-            font.draw(game.batch, "Score: " + gameController.getScore(), 0, viewport.getWorldHeight() - 20, viewport.getWorldWidth(), Align.center, false);
+            font.draw(game.batch, "Remaining Time: " + (int) gameController.getTimeLeft(), 0, viewport.getWorldHeight() - 20, viewport.getWorldWidth(), Align.center, false);
+            font.draw(game.batch, "Score: " + gameController.getScore() + "/" + targetLength, 10, viewport.getWorldHeight() - 20);
+
+            font.setColor(Color.RED);
+            font.draw(game.batch, "Typo: " + gameController.getTotalTypos() + "/5", 10, viewport.getWorldHeight() - 40);
 
             // Draw PAUSED text in the middle
+            font.setColor(Color.WHITE);
             font.getData().setScale(1.0f);
             font.draw(game.batch, "PAUSED - Press ESC to Resume", 0, viewport.getWorldHeight() / 2, viewport.getWorldWidth(), Align.center, false);
             font.draw(game.batch, "Type 'quit' to exit", 0, viewport.getWorldHeight() / 2 - 50, viewport.getWorldWidth(), Align.center, false);

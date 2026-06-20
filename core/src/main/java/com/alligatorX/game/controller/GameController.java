@@ -96,7 +96,11 @@ public class GameController {
     }
 
     public boolean getIsGameWon() {
-        return gameSession.isPlayerWon();
+        return this.gameSession.isPlayerWon();
+    }
+
+    public int getTotalTypos() {
+        return this.player.getTotalTypos();
     }
 
     // Update the time every frame

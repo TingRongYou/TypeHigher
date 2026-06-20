@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
@@ -22,7 +22,7 @@ public class GameOverScreen implements Screen {
 
     // Cameras and drawings
     private OrthographicCamera camera;
-    private FitViewport viewport;
+    private ExtendViewport viewport;
     private BitmapFont font;
 
     private boolean isPlayerWon; // Check if player has won
@@ -48,7 +48,7 @@ public class GameOverScreen implements Screen {
     @Override
     public void show() {
         this.camera = new OrthographicCamera();
-        this.viewport = new FitViewport(800, 600, camera);
+        this.viewport = new ExtendViewport(800, 600, camera);
 
         // FreeType font
         // 1. Load .ttf file from assets folder
