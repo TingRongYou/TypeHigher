@@ -182,6 +182,16 @@ public class GameScreen implements Screen {
             layout.setText(font, typed); // Measure just the green text
             float offset = layout.width;// See how wide it is
 
+            if (gameController.isShowingSpeedUpMessage()) {
+                font.getData().setScale(0.8f);
+                font.setColor(Color.YELLOW);
+
+                float messageY = viewport.getWorldHeight() / 2 + 100;
+                font.draw(game.batch, "SPED UP!", 0, messageY, viewport.getWorldWidth(), Align.center, false);
+                font.getData().setScale(1.0f);
+
+            }
+
             // 7. Draw remaining portion in gray
             font.setColor(Color.GRAY);
             // Draw gray text to starts where the green text ended

@@ -11,8 +11,8 @@ public class TimeManager {
     public TimeManager() {
         this.remainingTime = 0f; // Will get filed when first word is loaded
         this.decrementAmount = 0.1f; // The decrement amount is set to decrease 0.1s
-        this.minTimeFloor = 0.5f; // Lowest possible time for a single character is set to 0.5s
-        this.timePerChar = 1.5f; // Original Time per character is set to 1.5s
+        this.minTimeFloor = 0.1f; // Lowest possible time for a single character is set to 0.1s
+        this.timePerChar = 1.0f; // Original Time per character is set to 1.0s
 
     }
 

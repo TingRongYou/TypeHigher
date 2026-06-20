@@ -31,6 +31,7 @@ public class GameController {
     }
 
     private GameState currentState;
+    private float speedUpMessageTimer = 0f; // Tracks how long to show the message
 
     public GameController(int targetLength) {
 
@@ -103,6 +104,10 @@ public class GameController {
         return this.player.getTotalTypos();
     }
 
+    public boolean isShowingSpeedUpMessage() {
+        return speedUpMessageTimer > 0;
+    }
+
     // Update the time every frame
     public void update(float deltaTime) {
 
@@ -121,6 +126,10 @@ public class GameController {
                 wordProcessor.resetIndex(); // Reset index
                 timeManager.resetTimerForNewWord(wordProcessor.getTargetWord().length()); // Reset timer
             }
+        }
+
+        if (speedUpMessageTimer > 0) {
+            speedUpMessageTimer -= deltaTime;
         }
 
     }
@@ -157,7 +166,7 @@ public class GameController {
             // Dynamic difficulty
             if (gameSession.getWordCompleted() % 5 == 0) {
                 timeManager.shrinkTimeLimit(); // Reduce time per character
-                System.out.println("SPED UP! Time per char is now: " + timeManager.getTimePerChar());
+                speedUpMessageTimer = 2.0f; // Show message for 2 seconds
             }
 
             // If player has won
