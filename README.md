@@ -63,3 +63,9 @@ The core dictionary used to generate the typing targets in TypeHigher is sourced
 For the purposes of this game's mechanics, the massive dataset was programmatically sanitized at runtime to exclusively use lowercase, purely alphabetic words to ensure smooth gameplay flow.
 
 The original `dwyl` word list is free and unencumbered software released into the public domain via **The Unlicense**.
+
+**Typography**
+
+The game utilizes the **Jersey 25** font to achieve its retro arcade aesthetic.
+* [Copyright 2023 The Soft Type Project Authors](https://github.com/scfried/soft-type-jersey)
+* This Font Software is licensed under the **SIL Open Font License, Version 1.1**. A copy of the license is included in the repository.
