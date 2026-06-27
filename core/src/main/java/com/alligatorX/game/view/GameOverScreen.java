@@ -52,7 +52,7 @@ public class GameOverScreen implements Screen {
 
         // FreeType font
         // 1. Load .ttf file from assets folder
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("gamefont.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/gamefont.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 
         // 2. Set the BASE resolution size to 48 pixels to avoid blurring
@@ -75,6 +75,8 @@ public class GameOverScreen implements Screen {
                 if (transitionTimer >= 0) {
                     return true;
                 }
+
+                game.playTypingSound();
 
                 currentTyped += character; // Add character typed into currentTyped
                 // Check user input

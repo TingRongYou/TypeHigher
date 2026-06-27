@@ -5,17 +5,43 @@ import com.alligatorX.game.view.GameScreen;
 import com.alligatorX.game.view.MainMenuScreen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.math.MathUtils;
 
 // Game for managing and swaping Screen
 public class TypeHigher extends Game {
     // batch is public since creating batch for every screen waste memory
     public SpriteBatch batch;
+    public Sound typingSound; // Global sound variable
+    public Music backgroundMusic;
 
     @Override
     // Load assets
     public void create() {
         batch = new SpriteBatch();
+
+        // Load sound effect once
+        typingSound = Gdx.audio.newSound(Gdx.files.internal("audio/type.wav"));
+
+        // Configure and play the music
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/bgmCasinoRoulettes.mp3"));
+        // Restart song when finished
+        backgroundMusic.setLooping(true);
+        backgroundMusic.setVolume(0.5f); // Reduce volume
+        backgroundMusic.play(); // Start playing
+
         this.setScreen(new MainMenuScreen(this)); // Create screen, default at main menu
+    }
+
+    // Create helper method
+    public void playTypingSound() {
+        // Volume: 50%
+        // Pitch: random number between 0.8(deep) and 1.2(high)
+        // Pan: 0 (center of the speakers)
+        float randomPitch = MathUtils.random(0.8f, 1.2f);
+        typingSound.play(0.5f, randomPitch, 0);
     }
 
     @Override
@@ -30,5 +56,7 @@ public class TypeHigher extends Game {
     // Destroys assets to free up memory
     public void dispose() {
         batch.dispose();
+        typingSound.dispose();
+        backgroundMusic.dispose();
     }
 }

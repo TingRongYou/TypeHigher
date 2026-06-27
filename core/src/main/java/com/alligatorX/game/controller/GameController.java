@@ -39,7 +39,7 @@ public class GameController {
         // Read words from text file
         this.words = new ArrayList<>();
         // Open a "Stream" to read the file one line at a time
-        try(BufferedReader bufferedReader = new BufferedReader(Gdx.files.internal("words.txt").reader())) {
+        try(BufferedReader bufferedReader = new BufferedReader(Gdx.files.internal("text/words.txt").reader())) {
             String line;
             // Keep reading until there are no lines left
             while ((line = bufferedReader.readLine()) != null) {

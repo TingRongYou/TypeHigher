@@ -61,7 +61,7 @@ public class GameScreen implements Screen {
 
         // FreeType font
         // 1. Load .ttf file from assets folder
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("gamefont.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/gamefont.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 
         // 2. Set the BASE resolution size to 48 pixels to avoid blurring
@@ -86,6 +86,7 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean keyTyped(char character) {
+                game.playTypingSound();
                 // If the current state is PAUSED
                 if (gameController.getGameState() == GameController.GameState.PAUSE) {
                     pauseTyped += character; // Track the input during pause screen
