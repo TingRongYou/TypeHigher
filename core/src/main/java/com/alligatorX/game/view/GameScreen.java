@@ -86,18 +86,29 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean keyTyped(char character) {
-                game.playTypingSound();
                 // If the current state is PAUSED
                 if (gameController.getGameState() == GameController.GameState.PAUSE) {
                     pauseTyped += character; // Track the input during pause screen
-                    // Check what is the input
-                    if (pauseTyped.equals("quit")) {
-                        Gdx.app.exit();
-                    } else if (!"quit".startsWith(pauseTyped)) {
-                        pauseTyped = ""; // Clear pauseTyped if not "quit"
+                    // Check if it's a valid letter for "quit"
+                    if ("quit".startsWith(pauseTyped)) {
+                        game.playTypingSound(); // Correct
+                        if (pauseTyped.equals("quit")) {
+                            Gdx.app.exit();
+                        }
+                    } else {
+                        game.playTypoSound();
+                        pauseTyped = "";
                     }
                 } else if (gameController.getGameState() == GameController.GameState.PLAYING) {
-                    gameController.handleKeystroke(character);
+                    int previousTypos = gameController.getTotalTypos(); // Track typos before they press the key
+                    gameController.handleKeystroke(character); // Process the key
+
+                    // Check if typo count go up
+                    if (gameController.getTotalTypos() > previousTypos) {
+                        game.playTypoSound();
+                    } else {
+                        game.playTypingSound();
+                    }
                 }
                 return true; // Return true to tells LibGdx, "I handled this input"
             }

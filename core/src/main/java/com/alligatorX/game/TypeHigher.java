@@ -15,6 +15,7 @@ public class TypeHigher extends Game {
     // batch is public since creating batch for every screen waste memory
     public SpriteBatch batch;
     public Sound typingSound; // Global sound variable
+    public Sound errorSound;
     public Music backgroundMusic;
 
     @Override
@@ -24,6 +25,7 @@ public class TypeHigher extends Game {
 
         // Load sound effect once
         typingSound = Gdx.audio.newSound(Gdx.files.internal("audio/type.wav"));
+        errorSound = Gdx.audio.newSound(Gdx.files.internal("audio/typo.wav"));
 
         // Configure and play the music
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/bgmCasinoRoulettes.mp3"));
@@ -44,6 +46,10 @@ public class TypeHigher extends Game {
         typingSound.play(0.5f, randomPitch, 0);
     }
 
+    public void playTypoSound() {
+        errorSound.play(0.5f);
+    }
+
     @Override
     // Game loop
     public void render() {
@@ -57,6 +63,7 @@ public class TypeHigher extends Game {
     public void dispose() {
         batch.dispose();
         typingSound.dispose();
+        errorSound.dispose();
         backgroundMusic.dispose();
     }
 }

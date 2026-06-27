@@ -76,23 +76,27 @@ public class GameOverScreen implements Screen {
                     return true;
                 }
 
-                game.playTypingSound();
-
                 currentTyped += character; // Add character typed into currentTyped
-                // Check user input
-                if (currentTyped.equals("restart")) { // if user chooses restart
-                    transitionTimer = 0.1f;
-                } else if (currentTyped.equals("menu")) { // If user chooses menu
-                    isGoingToMenu = true;
-                    transitionTimer = 0.1f;
-                } else if (currentTyped.equals("quit")) {
-                    isQuitting = true;
-                    transitionTimer = 0.1f;
-                }
 
-                if(!"restart".startsWith(currentTyped) && !"menu".startsWith(currentTyped) &&
-                !"quit".startsWith(currentTyped)) {
-                    currentTyped = ""; // Clear currentTyped
+                boolean isValid = "restart".startsWith(currentTyped) ||
+                    "menu".startsWith(currentTyped) ||
+                    "quit".startsWith(currentTyped);
+
+                if (isValid) {
+                    game.playTypingSound();
+                    // Check user input
+                    if (currentTyped.equals("restart")) { // if user chooses restart
+                        transitionTimer = 0.1f;
+                    } else if (currentTyped.equals("menu")) { // If user chooses menu
+                        isGoingToMenu = true;
+                        transitionTimer = 0.1f;
+                    } else if (currentTyped.equals("quit")) {
+                        isQuitting = true;
+                        transitionTimer = 0.1f;
+                    }
+                } else {
+                    game.playTypoSound();
+                    currentTyped = "";
                 }
                 return true;
             }

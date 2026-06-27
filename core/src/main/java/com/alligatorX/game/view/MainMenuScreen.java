@@ -71,34 +71,38 @@ public class MainMenuScreen implements Screen {
                     return true;
                 }
 
-                game.playTypingSound();
-
                 // Add typed character into currentTyped
                 currentTyped += character;
 
-                // Check if it is a valid input
-                if (currentTyped.equals("thirty")) {
-                    selectedLength = 30;
-                    transitionTimer = 0.1f;
-                } else if (currentTyped.equals("sixty")) {
-                    selectedLength = 60;
-                    transitionTimer = 0.1f;
-                } else if (currentTyped.equals("ninety")) {
-                    selectedLength = 90;
-                    transitionTimer = 0.1f;
-                } else if (currentTyped.equals("unlimited")) {
-                    selectedLength = -1;
-                    transitionTimer = 0.1f;
-                } else if (currentTyped.equals("quit")) {
-                    isQuitting = true; // Closes the game instantly
-                    transitionTimer = 0.1f;
-                }
+                // Check if what they have typed so far is valid
+                boolean isValid = "thirty".startsWith(currentTyped) ||
+                    "sixty".startsWith(currentTyped) ||
+                    "ninety".startsWith(currentTyped) ||
+                    "unlimited".startsWith(currentTyped) ||
+                    "quit".startsWith(currentTyped);
 
-                // If user messed up and typed something doesn't start with t, s, n, or u, clear it
-                if (!"thirty".startsWith(currentTyped) && !"sixty".startsWith(currentTyped) &&
-                    !"ninety".startsWith(currentTyped) && !"unlimited".startsWith(currentTyped) &&
-                    !"quit".startsWith(currentTyped)) {
-                    currentTyped = ""; // Reset their typing
+                if (isValid) {
+                    game.playTypingSound();
+                    // Check if it is a valid input
+                    if (currentTyped.equals("thirty")) {
+                        selectedLength = 30;
+                        transitionTimer = 0.1f;
+                    } else if (currentTyped.equals("sixty")) {
+                        selectedLength = 60;
+                        transitionTimer = 0.1f;
+                    } else if (currentTyped.equals("ninety")) {
+                        selectedLength = 90;
+                        transitionTimer = 0.1f;
+                    } else if (currentTyped.equals("unlimited")) {
+                        selectedLength = -1;
+                        transitionTimer = 0.1f;
+                    } else if (currentTyped.equals("quit")) {
+                        isQuitting = true; // Closes the game instantly
+                        transitionTimer = 0.1f;
+                    }
+                } else {
+                    game.playTypoSound();
+                    currentTyped = ""; // Reset user typing
                 }
                 return true;
             }
