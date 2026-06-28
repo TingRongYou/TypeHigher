@@ -110,6 +110,7 @@ public class MainMenuScreen implements Screen {
             public boolean keyDown(int keyCode) {
                 // If user press F11, toggle fullscreen
                 if (keyCode == com.badlogic.gdx.Input.Keys.F11) {
+                    game.playSystemSound();
                     // Check if already fullscreen
                     boolean isFullScreen = Gdx.graphics.isFullscreen();
 

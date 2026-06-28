@@ -52,6 +52,7 @@ public class GameScreen implements Screen {
 
     private float popScale = 1.0f; // Control physical size of text
     private String previousTyped = ""; // Detect if a new letter is entered
+    private float shakeTimer = 0f; // Tracks how long the word shakes
 
     // Execute once as it runs, initialize the screen
     @Override
@@ -106,6 +107,7 @@ public class GameScreen implements Screen {
                     // Check if typo count go up
                     if (gameController.getTotalTypos() > previousTypos) {
                         game.playTypoSound();
+                        shakeTimer = 0.2f; // Trigger a 0.2 second shake
                     } else {
                         game.playTypingSound();
                     }
@@ -117,12 +119,14 @@ public class GameScreen implements Screen {
             public boolean keyDown(int keyCode) {
                 // If user press ESC
                 if (keyCode == com.badlogic.gdx.Input.Keys.ESCAPE) {
+                    game.playSystemSound();
                     gameController.togglePause(); // Pause the game
                     pauseTyped = ""; // Wiped the pause String if they unpause
                     return true;
                 }
                 // If user press F11, toggle fullscreen
                 if (keyCode == com.badlogic.gdx.Input.Keys.F11) {
+                    game.playSystemSound();
                     // Check if already fullscreen
                     boolean isFullScreen = Gdx.graphics.isFullscreen();
 
@@ -144,6 +148,12 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         gameController.update(delta);
+
+        // Check for speed up audio
+        if (gameController.consumeSpeedUpSound()) {
+            game.playSpeedUpSound();
+        }
+
         ScreenUtils.clear(0, 0, 0, 1); // Black background
 
         // Tell the batch to look through the camera lens before starts painting
@@ -186,9 +196,18 @@ public class GameScreen implements Screen {
             layout.setText(font, fullWord);
             float startX = (viewport.getWorldWidth() - layout.width) / 2;
 
+            // Shake math
+            float shakeOffsetX = 0f;
+            if (shakeTimer > 0) {
+                shakeTimer -= delta; // Tick down the timer
+                shakeOffsetX = MathUtils.random(-8f, 8f); // Random number of -8 and 8 pixels every frame
+            }
+
             // 5. Draw typed portion as green
             font.setColor(Color.GREEN);
-            font.draw(game.batch, typed, startX, textY);
+
+            // Add shake offset to X coordinates
+            font.draw(game.batch, typed, startX + shakeOffsetX, textY);
 
             // 6. Measure typed portion
             layout.setText(font, typed); // Measure just the green text
@@ -220,7 +239,7 @@ public class GameScreen implements Screen {
             // 7. Draw remaining portion in gray
             font.setColor(Color.GRAY);
             // Draw gray text to starts where the green text ended
-            font.draw(game.batch, remainingWord, startX + offset, textY);
+            font.draw(game.batch, remainingWord, startX + offset + shakeOffsetX, textY);
 
             // Draw HUD
             // Set HUD to smaller scale

@@ -16,6 +16,8 @@ public class TypeHigher extends Game {
     public SpriteBatch batch;
     public Sound typingSound; // Global sound variable
     public Sound errorSound;
+    public Sound speedUpSound;
+    public Sound systemSound;
     public Music backgroundMusic;
 
     @Override
@@ -24,11 +26,13 @@ public class TypeHigher extends Game {
         batch = new SpriteBatch();
 
         // Load sound effect once
-        typingSound = Gdx.audio.newSound(Gdx.files.internal("audio/type.wav"));
-        errorSound = Gdx.audio.newSound(Gdx.files.internal("audio/typo.wav"));
+        typingSound = Gdx.audio.newSound(Gdx.files.internal("audio/sfx/game/type.wav"));
+        errorSound = Gdx.audio.newSound(Gdx.files.internal("audio/sfx/game/typo.wav"));
+        speedUpSound = Gdx.audio.newSound(Gdx.files.internal("audio/sfx/game/speedUp.wav"));
+        systemSound = Gdx.audio.newSound(Gdx.files.internal("audio/sfx/ui/button.wav"));
 
         // Configure and play the music
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/bgmCasinoRoulettes.mp3"));
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/bgm/bgmCasinoRoulettes.mp3"));
         // Restart song when finished
         backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(0.5f); // Reduce volume
@@ -48,6 +52,14 @@ public class TypeHigher extends Game {
 
     public void playTypoSound() {
         errorSound.play(0.5f);
+    }
+
+    public void playSpeedUpSound() {
+        speedUpSound.play(0.5f);
+    }
+
+    public void playSystemSound() {
+        systemSound.play(0.5f);
     }
 
     @Override

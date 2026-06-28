@@ -34,6 +34,8 @@ public class GameController {
     private float speedUpMessageTimer = 0f; // Tracks how long to show the message
     private float typoMessageTimer = 0f; // Tracks how long to show the message
 
+    private boolean triggerSpeedUpSound = false; // Restrict game control access to audio
+
     public GameController(int targetLength) {
 
         // Read words from text file
@@ -113,6 +115,14 @@ public class GameController {
         return typoMessageTimer > 0;
     }
 
+    public boolean consumeSpeedUpSound() { // This is also a getter
+        if (triggerSpeedUpSound) {
+            triggerSpeedUpSound = false; // Reset
+            return true;
+        }
+        return false;
+    }
+
     // Update the time every frame
     public void update(float deltaTime) {
 
@@ -177,6 +187,7 @@ public class GameController {
             if (gameSession.getWordCompleted() % 5 == 0) {
                 timeManager.shrinkTimeLimit(); // Reduce time per character
                 speedUpMessageTimer = 2.0f; // Show message for 2 seconds
+                triggerSpeedUpSound = true;
             }
 
             // If player has won
