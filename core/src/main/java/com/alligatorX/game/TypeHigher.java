@@ -18,6 +18,8 @@ public class TypeHigher extends Game {
     public Sound errorSound;
     public Sound speedUpSound;
     public Sound systemSound;
+    public Sound winSound;
+    public Sound loseSound;
     public Music menuMusic;
     public Music unlimitedMusic;
     public Music[] limitedMusic; // Array to hold 3 random bgm
@@ -33,6 +35,8 @@ public class TypeHigher extends Game {
         errorSound = Gdx.audio.newSound(Gdx.files.internal("audio/sfx/game/typo.wav"));
         speedUpSound = Gdx.audio.newSound(Gdx.files.internal("audio/sfx/game/speedUp.wav"));
         systemSound = Gdx.audio.newSound(Gdx.files.internal("audio/sfx/ui/button.wav"));
+        winSound = Gdx.audio.newSound(Gdx.files.internal("audio/sfx/game/survived.mp3"));
+        loseSound = Gdx.audio.newSound(Gdx.files.internal("audio/sfx/game/fell.mp3"));
 
         // Load all music
         menuMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/bgm/menu.mp3"));
@@ -110,6 +114,14 @@ public class TypeHigher extends Game {
         systemSound.play(0.5f);
     }
 
+    public void playWinSound() {
+        winSound.play(0.7f); // Louder for celebration
+    }
+
+    public void playLoseSound() {
+        loseSound.play(0.7f);
+    }
+
     @Override
     // Game loop
     public void render() {
@@ -126,6 +138,8 @@ public class TypeHigher extends Game {
         errorSound.dispose();
         speedUpSound.dispose();
         systemSound.dispose();
+        winSound.dispose();
+        loseSound.dispose();
         menuMusic.dispose();
         unlimitedMusic.dispose();
         for (Music m : limitedMusic) {

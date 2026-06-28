@@ -48,6 +48,13 @@ public class GameOverScreen implements Screen {
     @Override
     public void show() {
         game.playMenuMusic();
+
+        if (isPlayerWon) {
+            game.playWinSound();
+        } else {
+            game.playLoseSound();
+        }
+
         this.camera = new OrthographicCamera();
         this.viewport = new ExtendViewport(800, 600, camera);
 
