@@ -30,6 +30,7 @@ public class MainMenuScreen implements Screen {
 
     private float popScale = 1.0f; // Control physical size of text
     private String previousTyped = ""; // Detect if a new letter is entered
+    private float shakeTimer = 0f; // Typo timer
 
     private float transitionTimer = -1f; // NOT transitioning
     private int selectedLength = 0;
@@ -104,6 +105,7 @@ public class MainMenuScreen implements Screen {
                 } else {
                     game.playTypoSound();
                     currentTyped = ""; // Reset user typing
+                    shakeTimer = 0.2f; // 0.2 second shake
                 }
                 return true;
             }
@@ -186,9 +188,16 @@ public class MainMenuScreen implements Screen {
         // Draw popping text
         font.getData().setScale(popScale); // Apply pop scale
 
+        // Shake math
+        float shakeOffsetX = 0f;
+        if (shakeTimer > 0) {
+            shakeTimer -= delta;
+            shakeOffsetX = MathUtils.random(-8f, 8f);
+        }
+
         // Draw what the user typed
         font.setColor(Color.GREEN);
-        font.draw(game.batch, "Typing: " + currentTyped, 0, startY - 280, viewport.getWorldWidth(), Align.center, false);
+        font.draw(game.batch, "Typing: " + currentTyped, shakeOffsetX, startY - 280, viewport.getWorldWidth(), Align.center, false);
 
         game.batch.end();
 

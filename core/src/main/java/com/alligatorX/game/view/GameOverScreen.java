@@ -33,6 +33,7 @@ public class GameOverScreen implements Screen {
 
     private float popScale = 1.0f; // Control physical size of text
     private String previousTyped = ""; // Detect if a new letter is entered
+    private float shakeTimer = 0f; // Typo timer
 
     private float transitionTimer = -1f; // NOT transitioning
     private boolean isQuitting = false;
@@ -105,6 +106,7 @@ public class GameOverScreen implements Screen {
                 } else {
                     game.playTypoSound();
                     currentTyped = "";
+                    shakeTimer = 0.2f;
                 }
                 return true;
             }
@@ -196,9 +198,16 @@ public class GameOverScreen implements Screen {
         // Draw popping text
         font.getData().setScale(popScale); // Apply pop scale
 
+        // Shake math
+        float shakeOffsetX = 0f;
+        if (shakeTimer > 0) {
+            shakeTimer -= delta;
+            shakeOffsetX = MathUtils.random(-8f, 8f);
+        }
+
         // Draw what the user typed
         font.setColor(Color.GREEN);
-        font.draw(game.batch, "Typing: " + currentTyped, 0, startY - 180, viewport.getWorldWidth(), Align.center, false);
+        font.draw(game.batch, "Typing: " + currentTyped, shakeOffsetX, startY - 180, viewport.getWorldWidth(), Align.center, false);
 
         // Reset Scale
         font.getData().setScale(1.0f);
