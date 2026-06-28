@@ -18,7 +18,10 @@ public class TypeHigher extends Game {
     public Sound errorSound;
     public Sound speedUpSound;
     public Sound systemSound;
-    public Music backgroundMusic;
+    public Music menuMusic;
+    public Music unlimitedMusic;
+    public Music[] limitedMusic; // Array to hold 3 random bgm
+    public Music currentMusic; // Track the music that is playing so we can stop it
 
     @Override
     // Load assets
@@ -31,14 +34,59 @@ public class TypeHigher extends Game {
         speedUpSound = Gdx.audio.newSound(Gdx.files.internal("audio/sfx/game/speedUp.wav"));
         systemSound = Gdx.audio.newSound(Gdx.files.internal("audio/sfx/ui/button.wav"));
 
-        // Configure and play the music
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/bgm/bgmCasinoRoulettes.mp3"));
-        // Restart song when finished
-        backgroundMusic.setLooping(true);
-        backgroundMusic.setVolume(0.5f); // Reduce volume
-        backgroundMusic.play(); // Start playing
+        // Load all music
+        menuMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/bgm/menu.mp3"));
+        menuMusic.setLooping(true);
+        menuMusic.setVolume(0.3f);
+
+        unlimitedMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/bgm/unlimited.mp3"));
+        unlimitedMusic.setLooping(true);
+        unlimitedMusic.setVolume(0.3f);
+
+        limitedMusic = new Music[3];
+        limitedMusic[0] = Gdx.audio.newMusic(Gdx.files.internal("audio/bgm/game1.mp3"));
+        limitedMusic[1] = Gdx.audio.newMusic(Gdx.files.internal("audio/bgm/game2.mp3"));
+        limitedMusic[2] = Gdx.audio.newMusic(Gdx.files.internal("audio/bgm/game3.mp3"));
+
+        for (Music m : limitedMusic) {
+            m.setLooping(true);
+            m.setVolume(0.3f);
+        }
+
+        playMenuMusic();
 
         this.setScreen(new MainMenuScreen(this)); // Create screen, default at main menu
+    }
+
+    // Smart Switcher
+    public void switchMusic(Music newMusic) {
+        // If the song we want to play is already playing, do nothing
+        if (currentMusic == newMusic) {
+            return;
+        }
+
+        // Stop old song if one is playing
+        if (currentMusic != null) {
+            currentMusic.stop();
+        }
+
+        // Play the new song and track it
+        currentMusic = newMusic;
+        currentMusic.play();
+    }
+
+    // Public trigger
+    public void playMenuMusic() {
+        switchMusic(menuMusic);
+    }
+
+    public void playUnlimitedGameMusic() {
+        switchMusic(unlimitedMusic);
+    }
+
+    public void playLimitedGameMusic() {
+        int randomIndex = MathUtils.random(0, 2); // Pick a random number from 0 to 2
+        switchMusic(limitedMusic[randomIndex]);
     }
 
     // Create helper method
@@ -76,6 +124,13 @@ public class TypeHigher extends Game {
         batch.dispose();
         typingSound.dispose();
         errorSound.dispose();
-        backgroundMusic.dispose();
+        speedUpSound.dispose();
+        systemSound.dispose();
+        menuMusic.dispose();
+        unlimitedMusic.dispose();
+        for (Music m : limitedMusic) {
+            m.dispose();
+        }
+
     }
 }

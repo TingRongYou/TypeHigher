@@ -83,6 +83,12 @@ public class GameScreen implements Screen {
         this.pixelTexture = new Texture(pixmap);
         pixmap.dispose(); // Dispose it once created
 
+        if (targetLength == -1) {
+            game.playUnlimitedGameMusic();
+        } else {
+            game.playLimitedGameMusic();
+        }
+
         // Handle keyboard events
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override

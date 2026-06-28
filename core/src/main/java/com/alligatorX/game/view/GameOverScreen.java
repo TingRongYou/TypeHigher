@@ -47,6 +47,7 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void show() {
+        game.playMenuMusic();
         this.camera = new OrthographicCamera();
         this.viewport = new ExtendViewport(800, 600, camera);
 
