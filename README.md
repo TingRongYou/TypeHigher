@@ -69,3 +69,9 @@ The original `dwyl` word list is free and unencumbered software released into th
 The game utilizes the **Jersey 25** font to achieve its retro arcade aesthetic.
 * [Copyright 2023 The Soft Type Project Authors](https://github.com/scfried/soft-type-jersey)
 * This Font Software is licensed under the **SIL Open Font License, Version 1.1**. A copy of the license is included in the repository.
+
+**Audio (BGM & SFX)**
+
+All background music and sound effects used in this game are royalty-free assets sourced from [Pixabay](https://pixabay.com/).
+
+They are utilized under the Pixabay Content License, which allows for free commercial and non-commercial use without requiring individual author attribution.
