@@ -165,23 +165,21 @@ public class GameScreen implements Screen {
         // Tell the batch to look through the camera lens before starts painting
         game.batch.setProjectionMatrix(camera.combined);
 
+        game.batch.begin(); // Start paintbrush
+
+        // Player
+        game.batch.setColor(Color.RED); // Set player to red color
+        game.batch.draw(pixelTexture, gameController.getPlayerX(), gameController.getPlayerY(), 50, 100); // Draw player
+
+        // 1. Get String
+        String fullWord = gameController.getCurrentWord();
+        String typed = gameController.getTypedPortion();
+        // Cuts the string (If full word is "apple", typed "app", gives "le")
+        String remainingWord = fullWord.substring(typed.length());
+        float shakeOffsetX = 0f;
+
         // 1. If playing (in game)
         if (gameController.getGameState() == GameController.GameState.PLAYING) {
-            game.batch.begin(); // Start paintbrush
-
-            // Player
-            game.batch.setColor(Color.RED); // Set player to red color
-            game.batch.draw(pixelTexture, gameController.getPlayerX(), gameController.getPlayerY(), 50, 100); // Draw player
-
-            // Font
-            game.batch.setColor(Color.WHITE); // Set text to white color
-
-            // 1. Get String
-            String fullWord = gameController.getCurrentWord();
-            String typed = gameController.getTypedPortion();
-            // Cuts the string (If full word is "apple", typed "app", gives "le")
-            String remainingWord = fullWord.substring(typed.length());
-
             // 2. Detect keystroke for 'Pop'
             // If typed word got longer, trigger pop effect
             if (typed.length() > previousTyped.length()) {
@@ -194,134 +192,90 @@ public class GameScreen implements Screen {
             // 3. LERP the Scale
             // Shrinks back to normal scale smoothly
             popScale = MathUtils.lerp(popScale, 1.0f, delta * 15f); // Back to normal 1.0f scale, 'delta * 15f' means speed, higher value faster speed
-            font.getData().setScale(popScale); // Apply scale to the font
-
-            // 4.Find center of the String
-            float textY = viewport.getWorldHeight() / 2;
-            // Measure full word to perfectly center it
-            layout.setText(font, fullWord);
-            float startX = (viewport.getWorldWidth() - layout.width) / 2;
 
             // Shake math
-            float shakeOffsetX = 0f;
             if (shakeTimer > 0) {
                 shakeTimer -= delta; // Tick down the timer
                 shakeOffsetX = MathUtils.random(-8f, 8f); // Random number of -8 and 8 pixels every frame
             }
+        }
 
-            // 5. Draw typed portion as green
-            if (shakeTimer > 0) {
-                font.setColor(Color.RED);
-            } else {
-                font.setColor(Color.GREEN);
-            }
+        font.getData().setScale(popScale); // Apply scale to the font
 
-            // Add shake offset to X coordinates
-            font.draw(game.batch, typed, startX + shakeOffsetX, textY);
+        // 4.Find center of the String
+        float textY = viewport.getWorldHeight() / 2;
+        // Measure full word to perfectly center it
+        layout.setText(font, fullWord);
+        float startX = (viewport.getWorldWidth() - layout.width) / 2;
 
-            // 6. Measure typed portion
-            layout.setText(font, typed); // Measure just the green text
-            float offset = layout.width;// See how wide it is
-
-            // Display speed up message
-            if (gameController.isShowingSpeedUpMessage()) {
-                font.getData().setScale(0.8f);
-                font.setColor(Color.YELLOW);
-
-                // Draw slightly above main typing area
-                float messageY = viewport.getWorldHeight() / 2 + 100;
-                font.draw(game.batch, "SPED UP!", 0, messageY, viewport.getWorldWidth(), Align.center, false);
-
-                // Reset scale back to normal
-                font.getData().setScale(1.0f);
-
-            }
-
-            // Display Typo Message
-            if (gameController.isShowingTypoMessage()) {
-                font.getData().setScale(0.8f);
-                font.setColor(Color.RED);
-                float messageY = viewport.getWorldHeight() / 2 + 200;
-                font.draw(game.batch, "TYPO + 1!", 0, messageY, viewport.getWorldWidth(), Align.center, false);
-                font.getData().setScale(1.0f);
-            }
-
-            // 7. Draw remaining portion in gray
-            if (shakeTimer > 0) {
-                font.setColor(Color.RED);
-            } else {
-                font.setColor(Color.GRAY);
-            }
-
-            // Draw gray text to starts where the green text ended
-            font.draw(game.batch, remainingWord, startX + offset + shakeOffsetX, textY);
-
-            // Draw HUD
-            // Set HUD to smaller scale
-            font.getData().setScale(0.5f);
-            font.setColor(Color.WHITE);
-            font.draw(game.batch, "Remaining Time: " + (int) gameController.getTimeLeft(), 0, viewport.getWorldHeight() - 20, viewport.getWorldWidth(), Align.center, false);
-            font.draw(game.batch, "Score: " + gameController.getScore() + "/" + targetLength, 10, viewport.getWorldHeight() - 20);
-
+        // 5. Draw typed portion as green
+        if (shakeTimer > 0) {
             font.setColor(Color.RED);
-            font.draw(game.batch, "Typo: " + gameController.getTotalTypos() + "/5", 10, viewport.getWorldHeight() - 40);
+        } else {
+            font.setColor(Color.GREEN);
+        }
 
-            game.batch.end();
-            // 2. If paused (in game)
-        } else if (gameController.getGameState() == GameController.GameState.PAUSE) {
-            game.batch.begin();
+        // Add shake offset to X coordinates
+        font.draw(game.batch, typed, startX + shakeOffsetX, textY);
 
-            // Draw the game frozen in background
-            // Player
-            game.batch.setColor(Color.RED); // Set player to red color
-            game.batch.draw(pixelTexture, gameController.getPlayerX(), gameController.getPlayerY(), 50, 100); // Draw player
+        // 6. Measure typed portion
+        layout.setText(font, typed); // Measure just the green text
+        float offset = layout.width;// See how wide it is
 
-            // Font
-            font.setColor(Color.WHITE); // Set text to white color
-            font.draw(game.batch, "Target Word: " + gameController.getCurrentWord(), 100, 100);
-            font.draw(game.batch, gameController.getTypedPortion(), 100, 80);
-
-            font.getData().setScale(0.5f);
-            font.draw(game.batch, "Remaining Time: " + (int) gameController.getTimeLeft(), 0, viewport.getWorldHeight() - 20, viewport.getWorldWidth(), Align.center, false);
-            font.draw(game.batch, "Score: " + gameController.getScore() + "/" + targetLength, 10, viewport.getWorldHeight() - 20);
-
+        // 7. Draw remaining portion in gray
+        if (shakeTimer > 0) {
             font.setColor(Color.RED);
-            font.draw(game.batch, "Typo: " + gameController.getTotalTypos() + "/5", 10, viewport.getWorldHeight() - 40);
+        } else {
+            font.setColor(Color.GRAY);
+        }
 
+        // Draw gray text to starts where the green text ended
+        font.draw(game.batch, remainingWord, startX + offset + shakeOffsetX, textY);
+
+        // Display speed up message
+        if (gameController.isShowingSpeedUpMessage()) {
+            font.getData().setScale(0.8f);
+            font.setColor(Color.YELLOW);
+
+            // Draw slightly above main typing area
+            float messageY = viewport.getWorldHeight() / 2 + 100;
+            font.draw(game.batch, "SPED UP!", 0, messageY, viewport.getWorldWidth(), Align.center, false);
+
+            // Reset scale back to normal
+            font.getData().setScale(1.0f);
+
+        }
+
+        // Display Typo Message
+        if (gameController.isShowingTypoMessage()) {
+            font.getData().setScale(0.8f);
+            font.setColor(Color.RED);
+            float messageY = viewport.getWorldHeight() / 2 + 200;
+            font.draw(game.batch, "TYPO + 1!", 0, messageY, viewport.getWorldWidth(), Align.center, false);
+            font.getData().setScale(1.0f);
+        }
+
+        // Draw HUD
+        // Set HUD to smaller scale
+        font.getData().setScale(0.5f);
+        font.setColor(Color.WHITE);
+        font.draw(game.batch, "Remaining Time: " + (int) gameController.getTimeLeft(), 0, viewport.getWorldHeight() - 20, viewport.getWorldWidth(), Align.center, false);
+        font.draw(game.batch, "Score: " + gameController.getScore() + "/" + targetLength, 10, viewport.getWorldHeight() - 20);
+
+        font.setColor(Color.RED);
+        font.draw(game.batch, "Typo: " + gameController.getTotalTypos() + "/5", 10, viewport.getWorldHeight() - 40);
+
+        if (gameController.getGameState() == GameController.GameState.PAUSE) {
             // Draw PAUSED text in the middle
             font.setColor(Color.WHITE);
             font.getData().setScale(1.0f);
             font.draw(game.batch, "PAUSED - Press ESC to Resume", 0, viewport.getWorldHeight() / 2, viewport.getWorldWidth(), Align.center, false);
             font.draw(game.batch, "Type 'quit' to exit", 0, viewport.getWorldHeight() / 2 - 50, viewport.getWorldWidth(), Align.center, false);
-
-            if (gameController.isShowingSpeedUpMessage()) {
-                font.getData().setScale(0.8f);
-                font.setColor(Color.YELLOW);
-
-                // Draw slightly above main typing area
-                float messageY = viewport.getWorldHeight() / 2 + 100;
-                font.draw(game.batch, "SPED UP!", 0, messageY, viewport.getWorldWidth(), Align.center, false);
-
-                // Reset scale back to normal
-                font.getData().setScale(1.0f);
-
-            }
-
-            if (gameController.isShowingTypoMessage()) {
-                font.getData().setScale(0.8f);
-                font.setColor(Color.RED);
-                float messageY = viewport.getWorldHeight() / 2 + 200;
-                font.draw(game.batch, "TYPO + 1!", 0, messageY, viewport.getWorldWidth(), Align.center, false);
-                font.getData().setScale(1.0f);
-            }
-
-            game.batch.end();
-
-        }
-        else { // 3. If game is over
+        } else if (gameController.getGameState() == GameController.GameState.GAME_OVER) { // 3. If game is over
             game.setScreen(new GameOverScreen(game, gameController.getIsGameWon(), gameController.getScore(), this.targetLength));
             dispose();
         }
+        game.batch.end();
     }
 
     // Dispose the font created (release memory)
