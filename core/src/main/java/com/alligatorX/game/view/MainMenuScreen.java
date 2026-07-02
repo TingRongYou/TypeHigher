@@ -196,7 +196,12 @@ public class MainMenuScreen implements Screen {
         }
 
         // Draw what the user typed
-        font.setColor(Color.GREEN);
+        if (shakeTimer > 0) {
+            font.setColor(Color.RED);
+        } else {
+            font.setColor(Color.GREEN);
+        }
+
         font.draw(game.batch, "Typing: " + currentTyped, shakeOffsetX, startY - 280, viewport.getWorldWidth(), Align.center, false);
 
         game.batch.end();

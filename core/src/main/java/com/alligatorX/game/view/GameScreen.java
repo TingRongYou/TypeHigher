@@ -210,7 +210,11 @@ public class GameScreen implements Screen {
             }
 
             // 5. Draw typed portion as green
-            font.setColor(Color.GREEN);
+            if (shakeTimer > 0) {
+                font.setColor(Color.RED);
+            } else {
+                font.setColor(Color.GREEN);
+            }
 
             // Add shake offset to X coordinates
             font.draw(game.batch, typed, startX + shakeOffsetX, textY);
@@ -243,7 +247,12 @@ public class GameScreen implements Screen {
             }
 
             // 7. Draw remaining portion in gray
-            font.setColor(Color.GRAY);
+            if (shakeTimer > 0) {
+                font.setColor(Color.RED);
+            } else {
+                font.setColor(Color.GRAY);
+            }
+
             // Draw gray text to starts where the green text ended
             font.draw(game.batch, remainingWord, startX + offset + shakeOffsetX, textY);
 
