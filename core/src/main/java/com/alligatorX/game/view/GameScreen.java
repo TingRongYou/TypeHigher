@@ -3,7 +3,6 @@ package com.alligatorX.game.view;
 // Import other classes
 import com.alligatorX.game.TypeHigher;
 import com.alligatorX.game.controller.GameController;
-import com.alligatorX.game.view.MainMenuScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;

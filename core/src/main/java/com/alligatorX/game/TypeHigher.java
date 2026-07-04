@@ -1,7 +1,6 @@
 package com.alligatorX.game;
 
 // Import other classes
-import com.alligatorX.game.view.GameScreen;
 import com.alligatorX.game.view.MainMenuScreen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
