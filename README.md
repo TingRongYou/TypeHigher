@@ -1,5 +1,15 @@
 # TypeHigher
 
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="[https://github.com/othneildrew/Best-README-Templat](https://github.com/TingRongYou/TypeHigher.git)e">
+    <img src="docs/images/typehigher_logo.png" alt="Logo" width="80" height="80">
+  </a>
+
+  <h3 align="center">A 2D Typing Game</h3>
+</div>
+
 A 2D typing game built with a strict Model-View-Controller (MVC) architecture, featuring dynamic difficulty scaling and micro-step progression mechanics.
 
 ## 🛠️ Technologies & Tools
