@@ -28,7 +28,7 @@
     </li>
     <li><a href="#demo">Demo</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#credits-and-acknowledgement">Credits & Acknowledgement</a></li>
+    <li><a href="#credits-and-acknowledgements">Credits & Acknowledgements</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
