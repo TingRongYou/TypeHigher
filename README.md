@@ -157,6 +157,8 @@ This project strictly enforces the MVC (Model-View-Controller) pattern.
 <!-- ROADMAP -->
 <a id="roadmap"></a>
 ## 🗺️ Roadmap
+- [ ] Typo text animation
+- [ ] Sped up text animation
 - [ ] Add graphics - 2D pixels graphics
 - [ ] Modify scoring system
 - [ ] Connect to database to store results
