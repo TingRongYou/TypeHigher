@@ -33,7 +33,9 @@
   </ol>
 </details>
 
-## About the Project
+<!-- ABOUT THE PROJECT -->
+<a id="about-the-project"></a>
+## 🔖 About the Project
 
 TypeHigher is a 2D typing game built with a strict Model-View-Controller (MVC) architecture, featuring dynamic difficulty scaling and micro-step progression mechanics.
 
@@ -43,7 +45,9 @@ It offers:
 * **Adaptive Difficulty:** Micro-step progression mechanics that incrementally shrink time limits as the player's accuracy and speed improve.
 * **Type-Driven Navigation:** Fully interactive menus (Main Menu, Pause, Game Over) that require the player to physically type their commands (e.g., > restart, > menu), keeping the core gameplay loop consistent from start to finish.
 
-## 🛠️ Technologies & Tools
+<!-- TECHNOLOGIES AND TOOLS -->
+<a id="technologies-and-tools"></a>
+### 🛠️ Technologies & Tools
 
 This project is built using the following core technologies:
 
@@ -53,14 +57,20 @@ This project is built using the following core technologies:
 * **[IntelliJ IDEA](https://www.jetbrains.com/idea/):** The primary Integrated Development Environment (IDE) used for development.
 * **Git:** Version control for tracking code changes and managing project history.
 
+<!-- GETTING STARTED -->
+<a id="getting-started"></a>
 ## ⚙️ Getting Started
 
 Follow these steps to get the project running on your local machine.
 
+<!-- PREREQUISITES -->
+<a id="prerequisites"></a>
 ### Prerequisites
 1. Ensure you have the **Java Development Kit (JDK)** installed (JDK 8 or higher is recommended for standard LibGDX projects).
 2. Ensure you have **Git** installed on your system.
 
+<!-- INSTALLATION -->
+<a id="installation"></a>
 ### Installation
 #### 1. Clone the Repository
 Open your terminal or command prompt and run:
@@ -93,33 +103,66 @@ If the shortcut scripts do not work on your machine, you can always run the game
 
 _(Note: You can also download the latest version from releases)_
 
+<!-- ARCHITECTURE NOTE -->
+<a id="architecture-note"></a>
 ### Architecture Note
 This project strictly enforces the MVC (Model-View-Controller) pattern.
 * Game rules, timers and string manipulation live purely in the `model` package.
 * LibGDX rendering the UI live in the `view` package.
 * The `controller` acts as the sole communication bridge between the two.
 
+<!-- DEMO -->
+<a id="demo"></a>
 ## 🎮 Demo
 
 <div align="center">
-  https://github.com/user-attachments/assets/9800f989-2eb3-4809-87e3-0f66b9cf6488
 
-  <h3 align="center">TypeHigher gameplay demo</h3>
-</div>
+  <a href="https://github.com/user-attachments/assets/9800f989-2eb3-4809-87e3-0f66b9cf6488">
+    <img src="docs/gif/gameplay_demo.gif" alt="Gameplay Preview" width="1500" height="900">
+  </a>
 
-<div align="center">
+   <h3 align="center">TypeHigher gameplay demo - click to view full video with sound</h3>
+
   <a href="https://github.com/TingRongYou/TypeHigher.git">
     <img src="docs/images/main_menu.png" alt="Main_menu" width="1500" height="900">
   </a>
 
   <h3 align="center">TypeHigher main menu screen</h3>
+
+  <a href="https://github.com/TingRongYou/TypeHigher.git">
+    <img src="docs/images/in_game.png" alt="Main_menu" width="1500" height="900">
+  </a>
+
+  <h3 align="center">TypeHigher in-game screen</h3>
+
+  <a href="https://github.com/TingRongYou/TypeHigher.git">
+    <img src="docs/images/in_game_pause.png" alt="Main_menu" width="1500" height="900">
+  </a>
+
+  <h3 align="center">TypeHigher in-game pause screen</h3>
+
+  <a href="https://github.com/TingRongYou/TypeHigher.git">
+    <img src="docs/images/game_over_lose.png" alt="Main_menu" width="1500" height="900">
+  </a>
+
+  <h3 align="center">TypeHigher gameover lose screen</h3>
+
+  <a href="https://github.com/TingRongYou/TypeHigher.git">
+    <img src="docs/images/game_over_win.png" alt="Main_menu" width="1500" height="900">
+  </a>
+
+  <h3 align="center">TypeHigher gameover win screen</h3>
 </div>
 
+<!-- ROADMAP -->
+<a id="roadmap"></a>
 ## 🗺️ Roadmap
-[ ] Add graphics - 2D pixels graphics
-[ ] Modify scoring system
-[ ] Connect to database to store results
+- [ ] Add graphics - 2D pixels graphics
+- [ ] Modify scoring system
+- [ ] Connect to database to store results
 
+<!-- CREDITS AND ACKNOWLEDGEMENTS -->
+<a id="credits-and-acknowledgements"></a>
 ## 📜 Credits & Acknowledgements
 **Dictionary Data**
 
@@ -141,7 +184,9 @@ All background music and sound effects used in this game are royalty-free assets
 
 They are utilized under the Pixabay Content License, which allows for free commercial and non-commercial use without requiring individual author attribution.
 
+<!-- CONTACT -->
+<a id="contact"></a>
 ## 🧑‍💻 Contact
-**Ting Rong You**
+* **Author:** Ting Rong You
 * **email:** [ryting999@gmail.com](ryting999@gmail.com)
 * **LinkedIn:** [Connect with me here](https://linkedin.com/in/ting-rong-you-945aab3b6)
