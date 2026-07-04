@@ -3,8 +3,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="[https://github.com/othneildrew/Best-README-Templat](https://github.com/TingRongYou/TypeHigher.git)e">
-    <img src="docs/images/typehigher_logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/TingRongYou/TypeHigher.git">
+    <img src="docs/images/typehigher_logo.png" alt="Logo" width="2000" height="1080">
   </a>
 
   <h3 align="center">A 2D Typing Game</h3>
