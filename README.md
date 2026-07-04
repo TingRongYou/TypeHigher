@@ -121,7 +121,7 @@ This project strictly enforces the MVC (Model-View-Controller) pattern.
     <img src="docs/gif/gameplay_demo.gif" alt="Gameplay Preview" width="1500" height="900">
   </a>
 
-   <h3 align="center">TypeHigher gameplay demo - click to view full video with sound</h3>
+   <h3 align="center">TypeHigher gameplay demo - click gif to view full video with sound</h3>
 
   <a href="https://github.com/TingRongYou/TypeHigher.git">
     <img src="docs/images/main_menu.png" alt="Main_menu" width="1500" height="900">
