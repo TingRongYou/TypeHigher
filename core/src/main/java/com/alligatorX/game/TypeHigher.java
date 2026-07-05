@@ -24,6 +24,7 @@ public class TypeHigher extends Game {
     public Music[] limitedMusic; // Array to hold 3 random bgm
     public Music currentMusic; // Track the music that is playing so we can stop it
 
+
     @Override
     // Load assets
     public void create() {

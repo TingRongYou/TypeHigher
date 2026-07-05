@@ -171,6 +171,9 @@ public class GameController {
             // If typo equal than 5
             if (player.getTotalTypos() == 5) {
                 this.currentState = GameState.GAME_OVER; // Game over
+                // Somewhere in your Game Over logic
+                NetworkManager network = new NetworkManager();
+                network.submitScore("Ting", 100, 2);
             } else { // If not
                 player.revertToCheckpoint(); // Back to checkpoint
                 wordProcessor.resetIndex(); // Reset index
