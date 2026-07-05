@@ -3,6 +3,7 @@ package com.alligatorX.game.view;
 // Import other classes
 import com.alligatorX.game.TypeHigher;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -112,7 +113,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public boolean keyDown(int keyCode) {
                 // If user press F11, toggle fullscreen
-                if (keyCode == com.badlogic.gdx.Input.Keys.F11) {
+                if (keyCode == Input.Keys.F11) {
                     game.playSystemSound();
                     // Check if already fullscreen
                     boolean isFullScreen = Gdx.graphics.isFullscreen();

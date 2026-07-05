@@ -56,6 +56,7 @@ This project is built using the following core technologies:
 * **[Gradle](https://gradle.org/):** The build automation tool used to manage project dependencies (like the LWJGL3 graphics backend) and compile the application.
 * **[IntelliJ IDEA](https://www.jetbrains.com/idea/):** The primary Integrated Development Environment (IDE) used for development.
 * **Git:** Version control for tracking code changes and managing project history.
+  * **Networking:** Utilizes LibGDX's native Net module to perform asynchronous REST API calls, connecting the game to a custom backend for global leaderboard tracking.
 
 <!-- GETTING STARTED -->
 <a id="getting-started"></a>
@@ -69,13 +70,15 @@ Follow these steps to get the project running on your local machine.
 1. Ensure you have the **Java Development Kit (JDK)** installed (JDK 8 or higher is recommended for standard LibGDX projects).
 2. Ensure you have **Git** installed on your system.
 
+_(Note: To utilize online leaderboard features, TypeHigher backend server must be running simultaneously. Refer [TypeHigher-backend Repository](https://github.com/TingRongYou/TypeHigher-backend.git) for setup instructions.)_
+
 <!-- INSTALLATION -->
 <a id="installation"></a>
-### Installation
+### Installation _(Note: You can also download the latest version from releases)_
 #### 1. Clone the Repository
 Open your terminal or command prompt and run:
 ```bash
-git clone [https://github.com/your-username/TypeHigher.git](https://github.com/TingRongYou/TypeHigher.git)
+git clone [https://github.com/TingRongYou/TypeHigher.git](https://github.com/TingRongYou/TypeHigher.git)
 cd TypeHigher
 ```
 #### 2. Open IntelliJ IDEA
@@ -101,8 +104,6 @@ If the shortcut scripts do not work on your machine, you can always run the game
 * **Windows:** `gradlew lwjgl3:run`
 * **Linux/Mac:** `./gradlew lwjgl3:run`
 
-_(Note: You can also download the latest version from releases)_
-
 <!-- ARCHITECTURE NOTE -->
 <a id="architecture-note"></a>
 ### Architecture Note
@@ -121,7 +122,7 @@ This project strictly enforces the MVC (Model-View-Controller) pattern.
     <img src="docs/gif/gameplay_demo.gif" alt="Gameplay Preview" width="1500" height="900">
   </a>
 
-   <h3 align="center">TypeHigher gameplay demo - click gif to view full video with sound</h3>
+   <h3 align="center">TypeHigher gameplay demo - click GIF to view full video with sound</h3>
 
   <a href="https://github.com/TingRongYou/TypeHigher.git">
     <img src="docs/images/main_menu.png" alt="Main_menu" width="1500" height="900">
@@ -145,13 +146,13 @@ This project strictly enforces the MVC (Model-View-Controller) pattern.
     <img src="docs/images/game_over_lose.png" alt="Main_menu" width="1500" height="900">
   </a>
 
-  <h3 align="center">TypeHigher gameover lose screen</h3>
+  <h3 align="center">TypeHigher Game Over lose screen</h3>
 
   <a href="https://github.com/TingRongYou/TypeHigher.git">
     <img src="docs/images/game_over_win.png" alt="Main_menu" width="1500" height="900">
   </a>
 
-  <h3 align="center">TypeHigher gameover win screen</h3>
+  <h3 align="center">TypeHigher Game Over win screen</h3>
 </div>
 
 <!-- ROADMAP -->
@@ -161,7 +162,9 @@ This project strictly enforces the MVC (Model-View-Controller) pattern.
 - [ ] Sped up text animation
 - [ ] Add graphics - 2D pixels graphics
 - [ ] Modify scoring system
-- [ ] Connect to database to store results
+- [x] Connect to database to store results
+  - [ ] Remove LocalHost
+  - [ ] Create LeaderboardScreen
 
 <!-- CREDITS AND ACKNOWLEDGEMENTS -->
 <a id="credits-and-acknowledgements"></a>
