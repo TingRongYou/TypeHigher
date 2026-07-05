@@ -56,7 +56,7 @@ This project is built using the following core technologies:
 * **[Gradle](https://gradle.org/):** The build automation tool used to manage project dependencies (like the LWJGL3 graphics backend) and compile the application.
 * **[IntelliJ IDEA](https://www.jetbrains.com/idea/):** The primary Integrated Development Environment (IDE) used for development.
 * **Git:** Version control for tracking code changes and managing project history.
-  * **Networking:** Utilizes LibGDX's native Net module to perform asynchronous REST API calls, connecting the game to a custom backend for global leaderboard tracking.
+* **Networking:** Utilizes LibGDX's native Net module to perform asynchronous REST API calls, connecting the game to a custom backend for global leaderboard tracking.
 
 <!-- GETTING STARTED -->
 <a id="getting-started"></a>
