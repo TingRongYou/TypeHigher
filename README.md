@@ -78,7 +78,7 @@ _(Note: To utilize online leaderboard features, TypeHigher backend server must b
 #### 1. Clone the Repository
 Open your terminal or command prompt and run:
 ```bash
-git clone https://github.com/your-username/type-higher.git TypeHigher
+git clone https://github.com/TingRongYou/type-higher.git TypeHigher
 cd TypeHigher
 ```
 #### 2. Open IntelliJ IDEA
