@@ -70,7 +70,7 @@ Follow these steps to get the project running on your local machine.
 1. Ensure you have the **Java Development Kit (JDK)** installed (JDK 8 or higher is recommended for standard LibGDX projects).
 2. Ensure you have **Git** installed on your system.
 
-_(Note: To utilize online leaderboard features, TypeHigher backend server must be running simultaneously. Refer [TypeHigher-backend Repository](https://github.com/TingRongYou/TypeHigher-backend.git) for setup instructions.)_
+_(Note: To utilize online leaderboard features, TypeHigher backend server must be running simultaneously. Refer [TypeHigher-backend Repository](https://github.com/TingRongYou/type-higher-backend.git) for setup instructions.)_
 
 <!-- INSTALLATION -->
 <a id="installation"></a>
