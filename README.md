@@ -75,7 +75,7 @@ Follow these steps to get the project running on your local machine.
 #### 1. Clone the Repository
 Open your terminal or command prompt and run:
 ```bash
-git clone [https://github.com/your-username/TypeHigher.git](https://github.com/TingRongYou/TypeHigher.git)
+git clone https://github.com/your-username/type-higher.git TypeHigher
 cd TypeHigher
 ```
 #### 2. Open IntelliJ IDEA
